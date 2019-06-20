@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sergeygusachenko <sergeygusachenko@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 15:22:39 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/19 13:54:15 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/19 16:46:00 by sergeygusac      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ char			*ft_itoa_u(unsigned long long int n)
 	int		i;
 	int		size;
 
-	size = nb_size(n);
+	size = nb_size_u(n);
 	i = 0;
 	str = (char*)malloc(sizeof(char) * size + 1);
 	if (!str)
