@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/03 15:04:32 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/19 13:58:27 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/20 00:10:37 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,14 @@ void	check_width(t_printf **factor, int *i, va_list ap)
 			(*factor)->width = -(*factor)->width;
 			(*factor)->flag_m++;
 		}
+		(*i)++;
+		return;
 	}
 	else if(ft_isdigit((*factor)->format[*i]))
 		(*factor)->width = ft_atoi(&((*factor)->format[*i]));
 	else
 		(*factor)->width = NOT_EXIST;
-	if((*factor)->width != NOT_EXIST && (*factor)->width != STAR)
+	if((*factor)->width != NOT_EXIST && (*factor)->format[*i] != '*')
 		(*i)+= nb_size((*factor)->width);
 	else if((*factor)->width == 0 && (*factor)->flag_z > 0)
 		(*i)--;

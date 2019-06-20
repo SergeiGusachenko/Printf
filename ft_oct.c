@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 02:19:20 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/19 14:20:27 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/19 23:22:32 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char				*ft_oct(t_printf **factor, va_list ap)
 			return ("0");
 		str = ((*factor)->flag_m > 0) ? ft_strjoin(str, w) : ft_strjoin(w, str);
 	}
-	(*factor)->resul_s = str;
+	(*factor)->resul_s = ft_strdup(str);
 	if (str != NULL && str[0] != '0')
 		free(str);
 	return ((*factor)->resul_s);

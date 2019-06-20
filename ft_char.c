@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 09:30:55 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/19 14:28:24 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/20 01:04:02 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,14 @@ char	*ft_char(t_printf **factor, va_list ap)
 		if (wd != NULL)
 			ft_putstr(wd);
 		(*factor)->return_value += (wd != NULL) ? ft_strlen(wd) + 1 : 1;
+		if (wd != NULL)
+			free(wd);
 		ft_putchar('\0');
 		return (NULL);
 	}
 	if (wd != NULL)
 		return (wd);
-	(*factor)->resul_s = res;
+	(*factor)->resul_s = ft_strdup(res);
 	if (res != NULL && res[0] != '0')
 		free(res);
 	return ((*factor)->resul_s);

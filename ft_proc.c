@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:22:43 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/19 14:20:39 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/20 00:03:36 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*ft_proc(t_printf **factor, va_list ap)
 	res[0] = '%';
 	if ((*factor)->width != NOT_EXIST)
 		m_w(factor, &wd, &res);
-	(*factor)->resul_s = res;
+	(*factor)->resul_s = ft_strdup(res);
 	free(res);
 	return ((*factor)->resul_s);
 }

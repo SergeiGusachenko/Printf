@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 16:32:45 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/19 13:58:11 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/19 22:26:04 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	*ft_hex(t_printf **factor, va_list ap)
 		}
 	}
 	str = manage_p_w(factor, str);
-	(*factor)->resul_s = str;
+	(*factor)->resul_s = ft_strdup(str);
 	if ((str != NULL && str[0] != '0') || flag)
 		free(str);
 	return ((*factor)->resul_s);

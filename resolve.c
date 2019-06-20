@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/03 21:57:50 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/19 13:54:20 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/20 01:01:42 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		resolve(t_printf **factor, va_list ap)
 		result = func(factor, ap);
 	(*factor)->return_value += ft_strlen(result);
 	ft_putstr(result);
-	// if ((*factor)->spec == 'u' || (*factor)->spec == 'U' || (*factor)->spec == 'd')
-	// 	free(result);
+	if((ft_strchr("uUd%xXcCoSsp", (*factor)->spec) != NULL) && result && ft_strcmp(result, "(null)") != 0 && (*factor)->resul_s != NULL)
+		free(result);
 	return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/02 20:30:45 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/19 13:54:28 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/20 00:50:59 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,5 @@ void	init(t_printf **factor, const char *restrict format)
 	(*factor)->flag_h = 0;
 	(*factor)->flag_s = 0;
 	(*factor)->flag_m = 0;
+	(*factor)->resul_s = NULL;
 }
