@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/04 00:52:54 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/19 14:20:20 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/20 03:41:47 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,10 @@ void	in_w(t_printf **f, char **w, char **r, long long int res)
 	int r_s;
 	int r_size;
 	char	*s;
+	char	*s_w;
 
 	s = NULL;
+	s_w = NULL;
 	r_size = nb_size(res);
 	r_s = ft_strlen(*r);
 	w_s = (*f)->width - r_s;
@@ -96,9 +98,12 @@ void	in_w(t_printf **f, char **w, char **r, long long int res)
 		(*f)->flag_p > 0 && res >= 0) ? '+' : *w[0];
 		*w[0] = (res < 0 && (*f)->filling_c == '0') ? '-' : *w[0];
 		s = ft_strdup(*r);
+		s_w = ft_strdup(*w);
 		free(*r);
-		(*r) = ((*f)->flag_m > 0) ? ft_update(*w, ft_strjoin(s, *w)) : ft_update(*w, ft_strjoin(*w, s)); //leak
+		free(*w);
+		(*r) = ((*f)->flag_m > 0) ? ft_strjoin(s, s_w) : ft_strjoin(s_w, s); //leak
 		free(s);
+		free(s_w);
 	}
 }
 

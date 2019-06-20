@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 02:19:20 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/19 23:22:32 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/20 01:36:42 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	init_w_pr(t_printf **f, char **pr, char **w, char	**res)
 {
 	int w_size;
 	int res_size;
-
+	char	*tmp;
 	res_size = ft_strlen(*res);
 	w_size = 0;
 	w_size = (*f)->width - res_size;
@@ -55,9 +55,12 @@ void	init_w_pr(t_printf **f, char **pr, char **w, char	**res)
 				return ;
 			}
 		}
+		tmp = ft_strdup(*w);
 		*res = (*w != NULL && (*f)->flag_m > 0) ?
-		ft_update((*w), ft_strjoin((*res), *w)) :
-		ft_update((*w), ft_strjoin((*w), *res));
+		ft_update((*w), ft_strjoin((*res), tmp)) :
+		ft_update((*w), ft_strjoin(tmp, *res));
+		(*w) = ft_strdup(tmp);
+		free(tmp);
 	}
 }
 
@@ -76,15 +79,19 @@ char				*ft_oct(t_printf **factor, va_list ap)
 	if (res > 0)
 		str = ft_itoa_base_u(res, 8, 0);
 	init_w_pr(factor, &pr, &w, &str);
-	if (res == 0 && w != NULL)
-		return (w);
+	if (res == 0 && w != NULL && w)
+	{
+		(*factor)->resul_s = ft_strdup(w);
+		free(w);
+		return ((*factor)->resul_s);
+	}
 	if (res == 0)
 	{
 		if (w == NULL && ((*factor)->flag_h > 0 || (*factor)->precision == -1))
 			return ("0");
 		str = ((*factor)->flag_m > 0) ? ft_strjoin(str, w) : ft_strjoin(w, str);
 	}
-	(*factor)->resul_s = ft_strdup(str);
+	(*factor)->resul_s = (str != NULL) ? ft_strdup(str) : ft_strnew(1);
 	if (str != NULL && str[0] != '0')
 		free(str);
 	return ((*factor)->resul_s);

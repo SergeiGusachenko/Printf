@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:59 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/19 19:01:31 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/20 03:59:32 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ char	*m_res(t_printf **f, char **p, char **w, unsigned long long res)
 	(*p) = ft_update((*p), ft_strdup(res_str));
 		free(res_str);
 	res_str = NULL;
-	return (*p);
+	(*f)->resul_s = ft_strdup(*p);
+	free(*p);
+	return ((*f)->resul_s);
 }
 
 char	*ft_uns(t_printf **factor, va_list ap)
