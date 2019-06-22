@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 19:37:13 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/11 11:18:25 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/21 00:22:04 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*fill_stru(char *str, unsigned long long int nb, int i)
 	return (str);
 }
 
-char			*ft_itoa(long long int n)
+char	*ft_itoa(long long int n)
 {
 	char					*str;
 	int						i;

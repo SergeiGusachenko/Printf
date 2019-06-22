@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/03 21:35:50 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/19 13:58:36 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/20 04:12:09 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_spec_func		get_spec_func(char specifier)
 	if (!funcs)
 	{
 		funcs = malloc(sizeof(*funcs) * NUM_SPEC);
-		if(funcs)
+		if (funcs)
 			init_funcs(funcs);
 	}
 	return (funcs[(int)specifier]);

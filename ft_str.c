@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 21:50:38 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/20 03:49:18 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/20 23:23:38 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ char	*manage_w(t_printf **f, char *w, char **res)
 	if (res)
 		str_size = ft_strlen(*res);
 	size = 0;
-	size = (str_size == 0 || (*f)->precision == 0) ? (*f)->width : ((*f)->width - str_size);
+	size = (str_size == 0 || (*f)->precision == 0)
+	? (*f)->width : ((*f)->width - str_size);
 	size = (res == NULL && (*f)->spec == 'c') ? size - 1 : size;
 	if (size > 0)
 		w = ft_memalloc(sizeof(char) * (size + 1));
@@ -45,6 +46,18 @@ void	manage_str_pr(t_printf **f, char **pr, char **res)
 	*res = ft_strncpy(*pr, *res, (*f)->precision);
 }
 
+void	read_r(t_printf **factor, int *flag, char **res, va_list ap)
+{
+	if ((ft_strchr("diouxXfSscpU%", (*factor)->spec) == NULL))
+	{
+		*res = (char*)ft_memalloc(sizeof(char) * 2);
+		*res[0] = (*factor)->spec;
+		*flag = 1;
+	}
+	else
+		*res = (char*)va_arg(ap, char*);
+}
+
 char	*ft_str(t_printf **factor, va_list ap)
 {
 	char	*res;
@@ -52,30 +65,20 @@ char	*ft_str(t_printf **factor, va_list ap)
 	char	*wdt;
 	int		flag;
 
-
 	flag = 0;
 	pr = NULL;
 	wdt = NULL;
 	(*factor)->filling_c = ' ';
-	if ((ft_strchr("diouxXfSscpU%", (*factor)->spec) == NULL))
-	{
-		res = (char*)ft_memalloc(sizeof(char) * 2);
-		res[0] = (*factor)->spec;
-		flag = 1;
-	}
-	else
-		res = (char*)va_arg(ap, char*);
+	read_r(factor, &flag, &res, ap);
 	if (res == NULL)
 		return ("(null)");
-
 	if ((*factor)->precision > 0 && (*factor)->precision < (int)ft_strlen(res))
 		manage_str_pr(factor, &pr, &res);
 	if ((*factor)->width > (int)ft_strlen(res))
 		wdt = manage_w(factor, wdt, &res);
-	(*factor)->resul_s = ((*factor)->precision != 0) ? ft_strdup(res) : ft_strdup(wdt);
+	(*factor)->resul_s = ((*factor)->precision != 0)
+	? ft_strdup(res) : ft_strdup(wdt);
 	if (flag)
 		free(res);
-	// if (wdt != NULL)
-	// 	free(wdt);
 	return ((*factor)->resul_s);
 }

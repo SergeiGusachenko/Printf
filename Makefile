@@ -6,7 +6,7 @@
 #    By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/30 15:47:30 by sgusache          #+#    #+#              #
-#    Updated: 2019/06/19 14:57:48 by sgusache         ###   ########.fr        #
+#    Updated: 2019/06/21 01:05:18 by sgusache         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,6 @@ SOURCES = ft_proc.c\
 				logic.c\
 				ft_int.c\
 				resolve.c\
-				exception.c\
 				dispatch.c \
 				format_check.c\
 				libft/*.c
@@ -33,14 +32,13 @@ SOURCES = ft_proc.c\
 
 NAME	=	libftprintf.a
 
-DEBUG	=	-g -fsanitize=address
 
 OBJECTS	:=	$(SOURCES:.c=.o)
 
 all:		$(NAME)
 
 $(NAME):
-			gcc -g -Wall -Wextra -Werror -I /includes/header.h -c $(SOURCES)
+			gcc -Wall -Wextra -Werror -I /includes/header.h -c $(SOURCES)
 			ar rcs $(NAME) *.o
 clean:
 			make -C libft/ clean

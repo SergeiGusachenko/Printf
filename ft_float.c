@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:55:16 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/19 13:58:15 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/20 16:51:21 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,23 @@ char	*to_str(t_printf **f, long double nb)
 	return ((res >= 0) ? str : ft_update(str, ft_strjoin("-", str)));
 }
 
+void	get_f_w(t_printf **f, char **w, long double res)
+{
+	*w[0] = ((*f)->flag_s > 0 && (*f)->filling_c == '0') ? ' ' : *w[0];
+	*w[0] = ((*f)->flag_p > 0 && (*f)->filling_c == '0'
+	&& res > 0) ? '+' : *w[0];
+	*w[0] = ((*f)->filling_c == '0' && res < 0) ? '-' : *w[0];
+	*w[0] = ((*f)->flag_p > 0 && (*f)->filling_c == '0' &&
+	res > 0) ? '+' : *w[0];
+}
+
 void	w_manage(t_printf **f, char **s_r, char **w, long double res)
 {
 	int w_size;
 
 	w_size = (*f)->width - ft_strlen(*s_r);
-	w_size = (((*f)->flag_m > 0 || res < 0) && (((*f)->flag_p > 0 && res > 0) || ((*f)->flag_s > 0))) ? w_size - 1 : w_size;
+	w_size = (((*f)->flag_m > 0 || res < 0) && (((*f)->flag_p > 0
+	&& res > 0) || ((*f)->flag_s > 0))) ? w_size - 1 : w_size;
 	if (w_size <= 0)
 		return ;
 	(*w) = (char*)ft_memalloc(sizeof(char) * w_size + 1);
@@ -87,12 +98,10 @@ void	w_manage(t_printf **f, char **s_r, char **w, long double res)
 		*s_r = ft_update(*s_r, ft_strjoin(*s_r, *w));
 		return ;
 	}
-	*w[0] = ((*f)->flag_s > 0 && (*f)->filling_c == '0') ? ' ' : *w[0];
-	*w[0] = ((*f)->flag_p > 0 && (*f)->filling_c == '0' && res > 0) ? '+' : *w[0];
-	*w[0] = ((*f)->filling_c == '0' && res < 0) ? '-' : *w[0];
-	*w[0] = ((*f)->flag_p > 0 && (*f)->filling_c == '0' && res > 0) ? '+' : *w[0];
+	get_f_w(f, w, res);
 	*s_r = (res < 0) ? (ft_update(*s_r, ft_strjoin("-", *s_r))) : *s_r;
-	*s_r = (res > 0 && (*f)->flag_p > 0) ? (ft_update(*s_r, ft_strjoin("+", *s_r))) : *s_r;
+	*s_r = (res > 0 && (*f)->flag_p > 0) ?
+	(ft_update(*s_r, ft_strjoin("+", *s_r))) : *s_r;
 	*s_r = ft_update(*w, ft_strjoin(*w, *s_r));
 }
 
@@ -115,4 +124,3 @@ char	*ft_float(t_printf **factor, va_list ap)
 		w_manage(factor, &str_res, &w, res);
 	return (str_res);
 }
-

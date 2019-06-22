@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergeygusachenko <sergeygusachenko@stud    +#+  +:+       +#+        */
+/*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 15:22:39 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/19 16:46:00 by sergeygusac      ###   ########.fr       */
+/*   Updated: 2019/06/21 00:16:43 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/header.h"
 
-void	fill(t_printf **f, char *str,int start,int end)
+void	fill(t_printf **f, char *str, int start, int end)
 {
-	while(start != end)
+	while (start != end)
 	{
 		str[start] = (*f)->filling_c;
 		start++;
@@ -26,18 +26,17 @@ void	get_res_u(t_printf **f, va_list ap, unsigned long long int *res)
 {
 	if ((*f)->lenght_result == 1)
 	{
-		if((*f)->spec == 'o' || (*f)->spec == 'O')
+		if ((*f)->spec == 'o' || (*f)->spec == 'O')
 			(*res) = (unsigned char)va_arg(ap, unsigned int);
 		else
 			(*res) = (unsigned char)va_arg(ap, unsigned int);
-
 	}
 	else if ((*f)->lenght_result == 2 || (*f)->spec == 'U')
 	{
-		if((*f)->spec == 'U')
+		if ((*f)->spec == 'U')
 			(*res) = va_arg(ap, unsigned long int);
 		else
-		(*res) = (unsigned short)va_arg(ap, int) ;
+			(*res) = (unsigned short)va_arg(ap, int);
 	}
 	else if ((*f)->lenght_result == 3)
 		(*res) = va_arg(ap, long int);
@@ -46,7 +45,13 @@ void	get_res_u(t_printf **f, va_list ap, unsigned long long int *res)
 		(*res) = ((*f)->spec == 'd' || (*f)->spec == 'i') ?
 		va_arg(ap, long long int) : va_arg(ap, unsigned long long int);
 	}
-	else if ((*f)->lenght_result == 5)
+	else
+		get_res_u_c(f, ap, res);
+}
+
+void	get_res_u_c(t_printf **f, va_list ap, unsigned long long int *res)
+{
+	if ((*f)->lenght_result == 5)
 		(*res) = va_arg(ap, intmax_t);
 	else if ((*f)->lenght_result == 6)
 		(*res) = va_arg(ap, size_t);
@@ -56,88 +61,11 @@ void	get_res_u(t_printf **f, va_list ap, unsigned long long int *res)
 		(*res) = va_arg(ap, int);
 	else if ((*f)->lenght_result == NOT_EXIST)
 	{
-		if((*f)->spec == 'O')
+		if ((*f)->spec == 'O')
 			(*res) = va_arg(ap, unsigned long long);
 		else
 			(*res) = (unsigned int)va_arg(ap, int);
 	}
-}
-
-char	*ft_update(char *str, char *update)
-{
-	if (str != NULL && str[0] != '0')
-		free(str);
-	str = update;
-	return (str);
-}
-
-char	*ft_strrev_u(char *str)
-{
-	int		i;
-	int		length;
-	char	temp;
-
-	i = 0;
-	length = ft_strlen(str);
-	while (i < (length / 2))
-	{
-		temp = str[i];
-		str[i] = str[length - i - 1];
-		str[length - i - 1] = temp;
-		i++;
-	}
-	str[length] = '\0';
-	return (str);
-}
-
-char	*fill_str_u(char *str, unsigned long long int nb, int i)
-{
-	if (i == 1)
-		str[0] = '-';
-	if (nb == 0)
-	{
-		str[i] = '0';
-		i++;
-	}
-	while (nb != 0)
-	{
-		str[i] = (nb % 10) + '0';
-		nb = nb / 10;
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-char			*ft_itoa_u(unsigned long long int n)
-{
-	char	*str;
-	int		i;
-	int		size;
-
-	size = nb_size_u(n);
-	i = 0;
-	str = (char*)malloc(sizeof(char) * size + 1);
-	if (!str)
-		return (NULL);
-	str = fill_str_u(str, n, i);
-	ft_strrev_u(str);
-	return (str);
-}
-
-int		ft_nbrlen_u(unsigned long long int n, int base)
-{
-	int size;
-
-	size = 0;
-	if (n == 0)
-		return (0);
-	while (n != 0)
-	{
-		n = n / base;
-		size++;
-	}
-	return (size);
 }
 
 char	*ft_itoa_base_u(unsigned long long int n, int base, int uppercase)

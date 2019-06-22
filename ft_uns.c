@@ -6,12 +6,11 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:59 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/20 03:59:32 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/20 19:58:46 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/header.h"
-
 
 void	m_pr_w(t_printf **f, char **pr, char **wd, unsigned long long res)
 {
@@ -21,11 +20,9 @@ void	m_pr_w(t_printf **f, char **pr, char **wd, unsigned long long res)
 
 	pr_size = 0;
 	res_size = nb_size_u(res);
-	if ((*f)->precision > res_size)
-		pr_size = (*f)->precision - res_size;
-	w_size = (*f)->width - res_size;
-	if (pr_size > 0)
-		w_size = (*f)->width - (*f)->precision;
+	pr_size = ((*f)->precision > res_size) ? (*f)->precision - res_size : 0;
+	w_size = (pr_size > 0) ? (*f)->width - (*f)->precision
+	: (*f)->width - res_size;
 	if (pr_size > 0)
 	{
 		(*pr) = (char*)ft_memalloc(sizeof(char) * (pr_size + 1));
@@ -37,7 +34,8 @@ void	m_pr_w(t_printf **f, char **pr, char **wd, unsigned long long res)
 	{
 		(*wd) = (char*)ft_memalloc(sizeof(char) * (w_size + 1));
 		(*f)->filling_c = ' ';
-		if ((*f)->flag_m == 0 && (*f)->flag_z > 0 && (*f)->precision == NOT_EXIST)
+		if ((*f)->flag_m == 0 && (*f)->flag_z > 0
+		&& (*f)->precision == NOT_EXIST)
 			(*f)->filling_c = '0';
 		fill(f, (*wd), 0, w_size);
 	}
@@ -57,16 +55,12 @@ char	*m_res(t_printf **f, char **p, char **w, unsigned long long res)
 			return (ft_update(*p, ft_strjoin(*w, *p)));
 	}
 	if ((*p) == NULL && (*w) != NULL)
-	{
-		if ((*f)->flag_m > 0)
-			return ft_update (*w, ft_strjoin(res_str, *w));
-		else
-			return ft_update (*w, ft_strjoin(*w, res_str));
-	}
-	if ((*p) != NULL && (*w) == NULL)
+		return ((*f)->flag_m > 0) ? ft_update(*w, ft_strjoin(res_str, *w))
+		: ft_update(*w, ft_strjoin(*w, res_str));
+	if (*p != NULL && *w == NULL)
 		return (*p);
 	(*p) = ft_update((*p), ft_strdup(res_str));
-		free(res_str);
+	free(res_str);
 	res_str = NULL;
 	(*f)->resul_s = ft_strdup(*p);
 	free(*p);

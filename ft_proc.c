@@ -6,12 +6,11 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:22:43 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/20 00:03:36 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/20 23:13:17 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/header.h"
-
 
 void	m_w(t_printf **f, char **w, char **res)
 {

@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 16:32:45 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/19 22:26:04 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/20 17:30:13 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,11 @@ char	*manage_p_w(t_printf **f, char *res_str)
 	return (res_str);
 }
 
-char	*ft_hex(t_printf **factor, va_list ap)
+char	*g_s(t_printf **factor, unsigned long long int res, char *str)
 {
-	unsigned long long int	res;
-	char					*str;
-	int						is_upper;
-	int						flag;
+	int flag;
 
 	flag = 0;
-	is_upper = ((*factor)->spec == 'x') ? 0 : 1;
-	res = 0;
-	str = NULL;
-	get_res_u(factor, ap, &res);
-	check_u_res(factor, &res);
-	str = (res == 0 && ((*factor)->precision == 0 ||
-	(*factor)->precision == 0)) ? ft_strnew(1) : ft_itoa_base_u(res, 16, is_upper);
 	if ((*factor)->spec == 'x')
 	{
 		if ((*factor)->flag_h > 0 && res != 0 && ((*factor)->flag_z == 0
@@ -91,4 +81,23 @@ char	*ft_hex(t_printf **factor, va_list ap)
 	if ((str != NULL && str[0] != '0') || flag)
 		free(str);
 	return ((*factor)->resul_s);
+}
+
+char	*ft_hex(t_printf **factor, va_list ap)
+{
+	unsigned long long int	res;
+	char					*str;
+	int						is_upper;
+	int						flag;
+
+	flag = 0;
+	is_upper = ((*factor)->spec == 'x') ? 0 : 1;
+	res = 0;
+	str = NULL;
+	get_res_u(factor, ap, &res);
+	check_u_res(factor, &res);
+	str = (res == 0 && ((*factor)->precision == 0 ||
+	(*factor)->precision == 0)) ?
+	ft_strnew(1) : ft_itoa_base_u(res, 16, is_upper);
+	return (g_s(factor, res, str));
 }

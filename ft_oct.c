@@ -6,28 +6,62 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 02:19:20 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/20 01:36:42 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/20 23:53:42 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/header.h"
 
-void	init_w_pr(t_printf **f, char **pr, char **w, char	**res)
+int		get_w_size(t_printf **f, int res_size)
 {
 	int w_size;
-	int res_size;
-	char	*tmp;
-	res_size = ft_strlen(*res);
+
 	w_size = 0;
 	w_size = (*f)->width - res_size;
 	if ((*f)->precision > res_size)
 		w_size = (*f)->width - (*f)->precision;
 	w_size = ((*f)->flag_h > 0) ? w_size - 1 : w_size;
-	if ((*f)->precision > res_size)
+	return (w_size);
+}
+
+void	flg_z_m(t_printf **f, char **pr, char **w, char **res)
+{
+	char *tmp;
+
+	tmp = NULL;
+	if ((*f)->flag_z > 0)
 	{
-		(*pr) = (char*)ft_memalloc(sizeof(char) * ((*f)->precision - res_size + 1));
+		if ((*pr) != NULL)
+		{
+			(*pr) = ft_update((*pr), ft_strjoin(*pr, (*w)));
+			return ;
+		}
+		if ((*f)->flag_h > 0)
+		{
+			*res = ft_update(*res, ft_strjoin("0", *res));
+			*res = ft_update(*res, ft_strjoin(*res, (*w)));
+			return ;
+		}
+	}
+	tmp = ft_strdup(*w);
+	*res = (*w != NULL && (*f)->flag_m > 0) ?
+	ft_update((*w), ft_strjoin((*res), tmp)) :
+	ft_update((*w), ft_strjoin(tmp, *res));
+	(*w) = ft_strdup(tmp);
+	free(tmp);
+}
+
+void	init_w_pr(t_printf **f, char **pr, char **w, char **res)
+{
+	int		w_size;
+
+	w_size = get_w_size(f, ft_strlen(*res));
+	if ((*f)->precision > (int)ft_strlen(*res))
+	{
+		(*pr) = (char*)ft_memalloc(sizeof(char)
+		* ((*f)->precision - ft_strlen(*res) + 1));
 		(*f)->filling_c = '0';
-		fill(f, (*pr),0 ,(*f)->precision - res_size);
+		fill(f, (*pr), 0, (*f)->precision - ft_strlen(*res));
 		(*res) = ft_update((*pr), ft_strjoin(*pr, *res));
 		if (w_size < 0)
 			return ;
@@ -41,30 +75,20 @@ void	init_w_pr(t_printf **f, char **pr, char **w, char	**res)
 		if (((*f)->flag_z > 0) && ((*f)->precision <= 0) && (*f)->flag_m == 0)
 			(*f)->filling_c = '0';
 		fill(f, (*w), 0, w_size);
-		if ((*f)->flag_z > 0)
-		{
-			if ((*pr) != NULL)
-			{
-				(*pr) = ft_update((*pr), ft_strjoin(*pr, (*w)));
-				return ;
-			}
-			if ((*f)->flag_h > 0)
-			{
-				*res = ft_update(*res, ft_strjoin("0", *res));
-				*res = ft_update(*res, ft_strjoin(*res, (*w)));
-				return ;
-			}
-		}
-		tmp = ft_strdup(*w);
-		*res = (*w != NULL && (*f)->flag_m > 0) ?
-		ft_update((*w), ft_strjoin((*res), tmp)) :
-		ft_update((*w), ft_strjoin(tmp, *res));
-		(*w) = ft_strdup(tmp);
-		free(tmp);
+		flg_z_m(f, pr, w, res);
 	}
 }
 
-char				*ft_oct(t_printf **factor, va_list ap)
+void	init_s(t_printf **f, va_list ap,
+unsigned long long int *res, char **str)
+{
+	*res = 0;
+	*str = NULL;
+	get_res_u(f, ap, res);
+	*str = (*res > 0) ? ft_itoa_base_u(*res, 8, 0) : NULL;
+}
+
+char	*ft_oct(t_printf **factor, va_list ap)
 {
 	unsigned long long int	res;
 	char					*str;
@@ -73,11 +97,7 @@ char				*ft_oct(t_printf **factor, va_list ap)
 
 	pr = NULL;
 	w = NULL;
-	res = 0;
-	str = NULL;
-	get_res_u(factor, ap, &res);
-	if (res > 0)
-		str = ft_itoa_base_u(res, 8, 0);
+	init_s(factor, ap, &res, &str);
 	init_w_pr(factor, &pr, &w, &str);
 	if (res == 0 && w != NULL && w)
 	{
